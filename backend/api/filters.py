@@ -38,7 +38,8 @@ class RecipeFilter(rest_framework_filter.FilterSet):
 
     class Meta:
         model = Recipe
-        fields = ('author', 'tags', 'is_favorited', 'is_in_shopping_cart', 'recipes_limit')
+        fields = ('author', 'tags', 'is_favorited', 'is_in_shopping_cart')
+
 
 class UserFilter(rest_framework_filter.FilterSet):
     recipes_limit = rest_framework_filter.NumberFilter(

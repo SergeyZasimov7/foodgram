@@ -77,10 +77,6 @@ class Tag(models.Model):
         max_length=TAG_LENGTH,
         unique=True,
         verbose_name='Название тега')
-    color = models.CharField(
-        max_length=TAG_LENGTH,
-        unique=True,
-        verbose_name='Цвет тега')
     slug = models.SlugField(
         max_length=TAG_LENGTH,
         unique=True,
@@ -157,7 +153,9 @@ class Recipe_Tags(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['recipe', 'tag'], name='recipetag_unique')
+            models.UniqueConstraint(
+                fields=['recipe', 'tag'], name='recipetag_unique'
+            )
         ]
 
     def __str__(self):
