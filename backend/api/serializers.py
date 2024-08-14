@@ -213,7 +213,7 @@ class RecipeSerializer(ModelSerializer):
     @transaction.atomic
     def update(self, instance, validated_data):
         if not self.context['request'].user.is_staff and \
-            self.context['request'].user != instance.author:
+                self.context['request'].user != instance.author:
             raise PermissionDenied(
                 "Изменять рецепт может только автором или администратором."
             )

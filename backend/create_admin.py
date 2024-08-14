@@ -77,7 +77,7 @@ if __name__ == '__main__':
         'shell',
         '-c',
         """
-        from create_admin import 
+        from create_admin import
         create_admin,
         create_tags,
         import_ingredients_from_json;
