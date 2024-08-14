@@ -192,8 +192,8 @@ class RecipeSerializer(ModelSerializer):
 
         data.update(
             {'tags': Tag.objects.filter(id__in=tags_ids),
-            'ingredients': valid_ingredients,
-            'author': self.context.get('request').user}
+             'ingredients': valid_ingredients,
+             'author': self.context.get('request').user}
         )
         return data
 
@@ -212,8 +212,8 @@ class RecipeSerializer(ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        if (not self.context['request'].user.is_staff
-            and self.context['request'].user != instance.author):
+        if not self.context['request'].user.is_staff and \
+            self.context['request'].user != instance.author:
             raise PermissionDenied(
                 "Изменять рецепт может только автором или администратором."
             )

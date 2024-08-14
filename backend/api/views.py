@@ -163,11 +163,11 @@ class CustomUserViewSet(UserViewSet):
         return super().get_permissions()
 
     @action(
-            detail=False,
-            methods=['get'],
-            url_path='me',
-            permission_classes=[IsAuthenticated]
-        )
+        detail=False,
+        methods=['get'],
+        url_path='me',
+        permission_classes=[IsAuthenticated]
+    )
     def me(self, request):
         serializer = CustomUserSerializer(
             request.user,

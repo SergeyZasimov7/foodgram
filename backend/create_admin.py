@@ -30,8 +30,8 @@ def create_admin():
 
 def create_tags():
     tags = [
-        {'name': 'Завтрак','slug': 'zavtrak'},
-        {'name': 'Обед','slug': 'obed'},
+        {'name': 'Завтрак', 'slug': 'zavtrak'},
+        {'name': 'Обед', 'slug': 'obed'},
         {'name': 'Ужин', 'slug': 'uzhin'},
         {'name': 'Десерты', 'slug': 'deserty'},
         {'name': 'Вегетарианские', 'slug': 'vegetarianskye'},
@@ -72,14 +72,17 @@ if __name__ == '__main__':
     sys.path.append(
         os.path.abspath(os.path.join(os.path.dirname(__file__), '../backend'))
     )
-    execute_from_command_line(
-    [
+    execute_from_command_line([
         'manage.py',
         'shell',
         '-c',
-        'from create_admin import create_admin, create_tags, import_ingredients_from_json;'
-        'create_admin();'
-        'create_tags();'
-        'import_ingredients_from_json()'
-    ]
-)
+        """
+        from create_admin import 
+        create_admin,
+        create_tags,
+        import_ingredients_from_json;
+        create_admin();
+        create_tags();
+        import_ingredients_from_json()
+        """
+    ])
