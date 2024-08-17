@@ -150,7 +150,11 @@ class Recipe(models.Model):
 
     def generate_short_link(self):
         while True:
-            short_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
+            short_code = ''.join(
+                random.choice(
+                    string.ascii_letters + string.digits
+                ) for _ in range(6)
+            )
             if not Recipe.objects.filter(short_link=short_code).exists():
                 return short_code
 
@@ -160,7 +164,11 @@ class Recipe(models.Model):
         super(Recipe, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.name} (Автор: {self.author}, Время: {self.cooking_time} мин.)'
+        return (
+            f'{self.name} '
+            f'(Автор: {self.author}, '
+            f'Время: {self.cooking_time} мин.)'
+        )
 
 
 class RecipeTags(models.Model):

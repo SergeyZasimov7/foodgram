@@ -95,8 +95,8 @@ AUTH_USER_MODEL = 'recipes.User'
 
 DJOSER = {
     'SERIALIZERS': {
-        'user': 'djoser.serializers.UserCreateSerializer', 
-        'current_user': 'api.serializers.UserSerializer', 
+        'user': 'djoser.serializers.UserCreateSerializer',
+        'current_user': 'api.serializers.UserSerializer',
     },
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.AllowAny'],

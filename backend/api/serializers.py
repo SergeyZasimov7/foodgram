@@ -41,8 +41,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'id',
-            'username', 
-            'first_name', 
+            'username',
+            'first_name',
             'last_name',
             'email',
             'is_subscribed',
@@ -260,7 +260,9 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated and obj:
-            return Subscriptions.objects.filter(user=request.user, author=obj).exists()
+            return Subscriptions.objects.filter(
+                user=request.user, author=obj
+            ).exists()
         return False
 
 
@@ -278,6 +280,7 @@ class FavoritesSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return SpecialRecipeSerializer(instance.recipe).data
+
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
     class Meta:

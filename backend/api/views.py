@@ -70,7 +70,6 @@ class RecipeViewSet(ModelViewSet):
         if not deleted_count:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
 
     @action(detail=True,
             methods=['post'],
@@ -93,7 +92,6 @@ class RecipeViewSet(ModelViewSet):
         if not deleted_count:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
 
     @action(detail=False,
             methods=['get'],
@@ -121,7 +119,10 @@ class RecipeViewSet(ModelViewSet):
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
     def get_link(self, request, pk):
         recipe = self.get_object()
-        short_link = f"http://{request.META['HTTP_HOST']}/short-link/{recipe.short_link}"
+        short_link = (
+            f"http://{request.META['HTTP_HOST']}/"
+            f"short-link/{recipe.short_link}"
+        )
         return Response({'short-link': short_link})
 
 
@@ -144,7 +145,7 @@ class UserViewSet(UserViewSet):
     serializer_class = UserSerializer
     pagination_class = Pagination
     filter_backends = (DjangoFilterBackend,)
-    permission_classes=[AllowAny]
+    permission_classes = [AllowAny]
 
     @action(
         detail=False,
@@ -156,7 +157,7 @@ class UserViewSet(UserViewSet):
         return super().me(request)
 
     @action(detail=True,
-            methods=['post',],
+            methods=['post'],
             permission_classes=[IsAuthenticated])
     def subscribe(self, request, **kwargs):
         user = request.user
@@ -204,8 +205,8 @@ class UserViewSet(UserViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
-                {'avatar': user.avatar.url},
-                status=status.HTTP_200_OK
+            {'avatar': user.avatar.url},
+            status=status.HTTP_200_OK
         )
 
     @manage_avatar.mapping.delete
