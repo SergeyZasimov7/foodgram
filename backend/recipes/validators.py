@@ -4,10 +4,6 @@ from django.core.exceptions import ValidationError
 
 
 def validate_username(username):
-    if username == 'me':
-        raise ValidationError(
-            f'Имя пользователя не может быть {username}.'
-        )
     regex = r'[\w.@+-]+'
     invalid_chars = re.sub(regex, '', username)
     if invalid_chars:
