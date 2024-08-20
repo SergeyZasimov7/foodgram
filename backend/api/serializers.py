@@ -127,22 +127,19 @@ class RecipeCreateSerializer(ModelSerializer):
         many=True
     )
     author = UserSerializer(read_only=True)
-    ingredients = SerializerMethodField()
+    ingredients = serializers.ListField(
+        child=serializers.DictField(
+            child=serializers.IntegerField(),
+            required=True,
+            allow_empty=False,
+            )
+    )
     image = Base64ImageField()
 
     class Meta:
         model = Recipe
         fields = ('id', 'tags', 'author', 'ingredients',
                   'name', 'image', 'text', 'cooking_time')
-
-    def get_ingredients(self, obj):
-        recipe = obj
-        ingredients = recipe.ingredients.values(
-            'id',
-            'name',
-            'measurement_unit',
-            amount=F('recipe__amount'),)
-        return ingredients
 
     def validate(self, data):
         if not data.get('image'):
@@ -196,11 +193,14 @@ class RecipeCreateSerializer(ModelSerializer):
             valid_ingredients[ingredient_object.pk] = (
                 ingredient_object, valid_ingredients[ingredient_object.pk])
 
-        data.update(
-            {'ingredients': valid_ingredients,
-             'author': self.context.get('request').user}
-        )
-        return data
+        validated_data = {
+            'tags': data.get('tags'),
+            'ingredients': valid_ingredients,
+            'author': self.context.get('request').user,
+            'cooking_time': data.get('cooking_time'),
+            'image': data.get('image')
+        }
+        return validated_data
 
     @transaction.atomic
     def create(self, validated_data):
