@@ -153,7 +153,7 @@ class RecipeCreateSerializer(ModelSerializer):
         tags = data.get('tags')
         if not tags:
             raise ValidationError('Необходимо указать хотя бы один тег')
-        
+
         unique_tag_ids = set([tag.id for tag in tags])
         if len(unique_tag_ids) != len(tags):
             raise ValidationError({'tags': 'Повторяющиеся теги в списке.'})
@@ -313,7 +313,6 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
         else:
             return [SpecialRecipeSerializer(recipe).data
                     for recipe in obj.recipes.all()]
-
 
     def get_is_subscribed(self, obj):
         request = self.context.get('request')

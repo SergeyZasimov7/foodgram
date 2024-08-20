@@ -169,8 +169,8 @@ class UserViewSet(UserViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_serializer = UserSubscriptionSerializer(
-           author,
-           context={'request': request}
+            author,
+            context={'request': request}
         )
         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
 
