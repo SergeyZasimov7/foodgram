@@ -132,7 +132,7 @@ class RecipeCreateSerializer(ModelSerializer):
             child=serializers.IntegerField(),
             required=True,
             allow_empty=False,
-            )
+        )
     )
     image = Base64ImageField()
 
