@@ -168,7 +168,11 @@ class UserViewSet(UserViewSet):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user_serializer = UserSubscriptionSerializer(
+           author,
+           context={'request': request}
+        )
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
 
     @subscribe.mapping.delete
     def unsubscribe(self, request, **kwargs):
@@ -187,10 +191,12 @@ class UserViewSet(UserViewSet):
         user = request.user
         subscribers = User.objects.filter(subscribers__user=user)
         pages = self.paginate_queryset(subscribers)
+        recipes_limit = request.query_params.get('recipes_limit')
         serializer = UserSubscriptionSerializer(
             pages,
             many=True,
-            context={'request': request})
+            context={'request': request, 'recipes_limit': recipes_limit}
+        )
         return self.get_paginated_response(serializer.data)
 
     @action(methods=['put'], detail=False, url_path='me/avatar',
