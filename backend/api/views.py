@@ -119,9 +119,8 @@ class RecipeViewSet(ModelViewSet):
     @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
     def get_link(self, request, pk):
         recipe = self.get_object()
-        short_link = (
-            f"http://{request.META['HTTP_HOST']}/"
-            f"short-link/{recipe.short_link}"
+        short_link = request.build_absolute_uri(
+            f"/recipes/{recipe.id}/short-link/{recipe.short_link}"
         )
         return Response({'short-link': short_link})
 
@@ -168,11 +167,7 @@ class UserViewSet(UserViewSet):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        user_serializer = UserSubscriptionSerializer(
-            author,
-            context={'request': request}
-        )
-        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @subscribe.mapping.delete
     def unsubscribe(self, request, **kwargs):
@@ -191,11 +186,10 @@ class UserViewSet(UserViewSet):
         user = request.user
         subscribers = User.objects.filter(subscribers__user=user)
         pages = self.paginate_queryset(subscribers)
-        recipes_limit = request.query_params.get('recipes_limit')
         serializer = UserSubscriptionSerializer(
             pages,
             many=True,
-            context={'request': request, 'recipes_limit': recipes_limit}
+            context={'request': request}
         )
         return self.get_paginated_response(serializer.data)
 
