@@ -1,7 +1,6 @@
 import base64
 import uuid
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import F
@@ -45,7 +44,9 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
     def validate_amount(self, value):
         if value <= 0:
-            raise serializers.ValidationError("Количество ингредиента должно быть больше нуля")
+            raise serializers.ValidationError(
+                "Количество ингредиента должно быть больше нуля"
+            )
         return value
 
 
@@ -144,20 +145,6 @@ class RecipeSerializer(ModelSerializer):
         )
 
 
-class RecipeIngredientSerializer(serializers.ModelSerializer):
-    id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    amount = serializers.IntegerField()
-
-    class Meta:
-        model = RecipeIngredients
-        fields = ('id', 'amount')
-
-    def validate_amount(self, value):
-        if value <= 0:
-            raise serializers.ValidationError("Количество ингредиента должно быть больше нуля")
-        return value
-
-
 class RecipeCreateSerializer(ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
@@ -165,9 +152,9 @@ class RecipeCreateSerializer(ModelSerializer):
     )
     author = UserSerializer(read_only=True)
     ingredients = serializers.ListField(
-           child=RecipeIngredientSerializer(),
-           required=True,
-           allow_empty=False,
+        child=RecipeIngredientSerializer(),
+        required=True,
+        allow_empty=False,
     )
     image = Base64ImageField()
 
@@ -212,7 +199,7 @@ class RecipeCreateSerializer(ModelSerializer):
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
         author = self.context['request'].user
-        recipe = Recipe.objects.create(author=author,**validated_data)
+        recipe = Recipe.objects.create(author=author, **validated_data)
         recipe.tags.set(tags)
         self._set_tags_and_ingredients(recipe, tags, ingredients)
         return recipe
