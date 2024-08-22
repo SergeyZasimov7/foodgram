@@ -5,16 +5,10 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from .constans import (
-    USER_LENGTH,
-    TAG_LENGTH,
-    INGREDIENT_NAME_LENGTH,
-    INGREDIENT_MEASUREMENT_UNIT_LENGTH,
-    MAX_VALUE_VALIDATOR,
-    MIN_VALUE_VALIDATOR,
-    RECIPE_LENGTH,
-    SHORT_LINK_LENGTH
-)
+from .constans import (INGREDIENT_MEASUREMENT_UNIT_LENGTH,
+                       INGREDIENT_NAME_LENGTH, MAX_VALUE_VALIDATOR,
+                       MIN_VALUE_VALIDATOR, RECIPE_LENGTH, SHORT_LINK_LENGTH,
+                       TAG_LENGTH, USER_LENGTH)
 from .validators import validate_username
 
 
