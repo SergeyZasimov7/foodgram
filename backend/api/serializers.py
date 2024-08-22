@@ -5,21 +5,11 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import F
 from drf_extra_fields.fields import Base64ImageField
+from recipes.models import (Favorites, Ingredient, Recipe, RecipeIngredients,
+                            ShoppingCart, Subscriptions, Tag, User)
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-
-
-from recipes.models import (
-    Ingredient,
-    Favorites,
-    Recipe,
-    RecipeIngredients,
-    ShoppingCart,
-    Subscriptions,
-    Tag,
-    User
-)
 
 
 class TagSerializer(ModelSerializer):
