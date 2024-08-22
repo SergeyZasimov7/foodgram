@@ -2,17 +2,16 @@ import json
 import os
 import sys
 
-from django.contrib.auth.models import User
 from django.core.management import execute_from_command_line
-from recipes.models import Ingredient, Tag
+from recipes.models import Ingredient, Tag, User
 
 
 def create_admin():
-    admin_username = 'admin'
-    admin_password = '28GjxJceRfp'
-    admin_email = 'admin@example.com'
-    admin_first_name = 'Admin'
-    admin_last_name = 'Admin'
+    admin_username = 'review'
+    admin_password = 'review1admin'
+    admin_email = 'review@admin.ru'
+    admin_first_name = 'review'
+    admin_last_name = 'review'
 
     try:
         User.objects.create_superuser(
