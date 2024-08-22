@@ -9,6 +9,9 @@ RUN pip install gunicorn==20.1.0 && \
 
 COPY . ./
 
+ENV ALLOWED_HOSTS='127.0.0.1,localhost,158.160.64.88,taski.sytes.net'
+ENV SECRET_KEY=django-insecure-**e^f2@ma6$dt$d(l+5u#i%iuvzn0q(%^1)r^b!o^b8zf195cb
+
 RUN python manage.py makemigrations && python manage.py migrate
 
 # Run initial data loading, including creating admin user and tags

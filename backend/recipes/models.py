@@ -136,14 +136,17 @@ class Recipe(models.Model):
         validators=[
             MinValueValidator(
                 MIN_VALUE_VALIDATOR,
-                message='Время приготовления должно быть не менее 1 минуты.'
+                message=f'Время приготовления должно быть не менее '
+                        f'{MIN_VALUE_VALIDATOR} минуты.'
             ),
             MaxValueValidator(
                 MAX_VALUE_VALIDATOR,
-                message='Время приготовления должно быть не более 32000 минут.'
+                message=f'Время приготовления должно быть не более '
+                        f'{MIN_VALUE_VALIDATOR} минут.'
             )
         ],
-        help_text='Укажите время приготовления 1 до 32000 минут.'
+        help_text=f'Укажите время приготовления {MIN_VALUE_VALIDATOR} '
+                  f'до {MIN_VALUE_VALIDATOR} минут.'
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -212,14 +215,17 @@ class RecipeIngredients(models.Model):
         validators=[
             MinValueValidator(
                 MIN_VALUE_VALIDATOR,
-                message='Количество ингредиентов должно быть не меньше 1'
+                message=f'Количество ингредиентов должно быть не меньше '
+                        f'{MIN_VALUE_VALIDATOR}'
             ),
             MaxValueValidator(
                 MAX_VALUE_VALIDATOR,
-                message='Количество ингредиентов должно быть не больше 32000'
+                message=f'Количество ингредиентов должно быть не больше '
+                        f'{MIN_VALUE_VALIDATOR}'
             ),
         ],
-        help_text='Количество ингредиентов должно быть от 1 до 32000'
+        help_text=f'Количество ингредиентов должно быть от '
+                  f'{MIN_VALUE_VALIDATOR} до {MIN_VALUE_VALIDATOR}'
     )
 
     class Meta:
