@@ -4,7 +4,6 @@ import sys
 
 from django.contrib.auth.models import User
 from django.core.management import execute_from_command_line
-
 from recipes.models import Ingredient, Tag
 
 
