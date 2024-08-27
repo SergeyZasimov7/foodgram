@@ -112,7 +112,9 @@ class RecipeSerializer(ModelSerializer):
         return bool(
             request
             and request.user.is_authenticated
-            and obj.favorites.filter(user=request.user, recipe=obj).exists()
+            and obj.favorites.filter(
+                user=request.user, recipe=obj
+            ).exists()
         )
 
     def get_is_in_shopping_cart(self, obj):
@@ -120,7 +122,9 @@ class RecipeSerializer(ModelSerializer):
         return bool(
             request
             and request.user.is_authenticated
-            and obj.shopping_cart.filter(user=request.user, recipe=obj).exists()
+            and obj.shopping_cart.filter(
+                user=request.user, recipe=obj
+            ).exists()
         )
 
 
