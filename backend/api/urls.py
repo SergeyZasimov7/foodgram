@@ -3,7 +3,8 @@ from django.conf.urls.static import static
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import IngredientViewSet, RecipeViewSet, TagViewSet, UserViewSet, ShortLinkViewSet
+from .views import (IngredientViewSet, RecipeViewSet, ShortLinkViewSet,
+                    TagViewSet, UserViewSet)
 
 app_name = 'api'
 
@@ -32,7 +33,11 @@ urlpatterns = [
         RecipeViewSet.as_view({'get': 'get_link'}),
         name='recipes-get-link'
     ),
-    path('s/<str:short_code>/', ShortLinkViewSet.as_view(), name='short_link'),
+    path(
+        's/<str:short_code>/',
+        ShortLinkViewSet.as_view(),
+        name='short_link'
+    ),
 ]
 
 if settings.DEBUG:

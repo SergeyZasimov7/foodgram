@@ -116,9 +116,12 @@ class ShortLinkViewSet(APIView):
     def get(self, request, short_code):
         try:
             recipe = Recipe.objects.get(short_link=short_code)
-            return redirect(f'/recipes/{recipe.id}/')  # Перенаправление в браузере
+            return redirect(f'/recipes/{recipe.id}/')
         except Recipe.DoesNotExist:
-            return Response({'error': 'Рецепта с таким коротким кодом не существует.'}, status=404)
+            return Response(
+                {'error': 'Рецепта с таким коротким кодом не существует.'},
+                status=404
+            )
 
 
 class TagViewSet(ReadOnlyModelViewSet):
