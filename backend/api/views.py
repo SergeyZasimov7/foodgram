@@ -1,6 +1,6 @@
 from django.db.models import Sum
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from recipes.models import (Favorites, Ingredient, Recipe, ShoppingCart,
@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from .filters import IngredientFilter, RecipeFilter
@@ -109,6 +110,15 @@ class RecipeViewSet(ModelViewSet):
             f"/s/{recipe.short_link}"
         )
         return Response({'short-link': short_link})
+
+
+class ShortLinkViewSet(APIView):
+    def get(self, request, short_code):
+        try:
+            recipe = Recipe.objects.get(short_link=short_code)
+            return redirect(f'/recipes/{recipe.id}/')  # Перенаправление в браузере
+        except Recipe.DoesNotExist:
+            return Response({'error': 'Рецепта с таким коротким кодом не существует.'}, status=404)
 
 
 class TagViewSet(ReadOnlyModelViewSet):
