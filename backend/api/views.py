@@ -116,7 +116,9 @@ class ShortLinkViewSet(APIView):
     def get(self, request, short_code):
         try:
             recipe = Recipe.objects.get(short_link=short_code)
-            return redirect(f'/recipes/{recipe.id}/')
+            return redirect(
+                request.build_absolute_uri(f'/recipes/{recipe.id}/')
+            )
         except Recipe.DoesNotExist:
             return Response(
                 {'error': 'Рецепта с таким коротким кодом не существует.'},
