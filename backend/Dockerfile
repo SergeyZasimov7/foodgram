@@ -12,6 +12,8 @@ COPY . ./
 ENV ALLOWED_HOSTS='127.0.0.1,localhost,158.160.64.88,task.sytes.net'
 ENV SECRET_KEY='django-insecure-**e^f2@ma6$dt$d(l+5u#i%iuvzn0q(%^1)r^b!o^b8zf195cb'
 
+RUN apt-get update && apt-get install -y sqlite3
+
 RUN python manage.py makemigrations && python manage.py migrate
 
 RUN python manage.py shell -c "from create_admin import create_admin, create_tags, import_ingredients_from_json; create_admin(); create_tags(); import_ingredients_from_json()"
